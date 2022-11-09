@@ -17,19 +17,22 @@
  */
 
 const express = require('express');
+const cors  = require('cors')
 
+const ff=999
 const makeRequest = require('./utilities').makeRequest;
 
 const app = express();
 
+app.use(cors())
 app.set('json spaces', 4);
 
-app.listen(3000);
+app.listen(3005);
 
 app.get('/country', async (req, res) => {
 
     try {
-        const result = await makeRequest('GET', '/v1/payment_methods/country?country=mx');
+        const result = await makeRequest('GET', '/v1/payment_methods/country?country=us');
     
         res.json(result);
       } catch (error) {
@@ -42,7 +45,7 @@ app.get('/payment', async (req, res) => {
 
     try {
         const body = {
-            amount: 230,
+            amount: req.query.amount,
             currency: 'MXN',
             payment_method: {
                 type: 'mx_diestel_cash'
@@ -55,3 +58,18 @@ app.get('/payment', async (req, res) => {
     }
 
 })
+
+
+
+app.get('/complete' , async (req,res)=>{
+    try{
+        const body = {
+            token: "payment_3c5cce8d1a81770ab170ced1fdb27eb7",
+        }
+    const result = await makeRequest('POST', '/v1/payments/completePayment', body);
+    res.json(result)
+     } catch(error){
+        res.json(error)
+    }
+})
+

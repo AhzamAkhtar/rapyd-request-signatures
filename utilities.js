@@ -1,7 +1,7 @@
 const https = require('https');
 const crypto = require('crypto');
-const accessKey = "";
-const secretKey = "";
+const accessKey = "07DC489D5DCCACE9E560"; 
+const secretKey = "96261d5f7bbf6c4a2f03f02a6006575b5438f3b91311ac31fb94740fa8b06bdfee098f1041799041";
 const log = false;
 
 async function makeRequest(method, urlPath, body = null) {
