@@ -109,9 +109,54 @@ app.get("/retrive" , async (req,res) =>{
   try{
     const result = await makeRequest("POST" , "/v1/payments/payment_37b590436f29d85495de1a63a704db22")
     res.json(result)
-
   }
   catch(error){
     res.json(error)
   }
 })
+
+app.get("/refund",  async(req,res)=>{
+  try{
+    const body = {
+      payment : req.query.payment,
+      reason : "Pata nhi"
+    }
+    const result = await makeRequest("POST","/v1/refunds",body)
+    res.json(result)
+  }
+  catch(error){
+    console.log(error)
+  }
+})
+
+
+
+
+app.get("/payment_card", async (req, res) => {
+  try {
+    const body = {
+      amount: req.query.amount,
+      currency: "SGD",
+      description: "Payment method token",
+      receipt_email: req.query.receipt_email,
+      address: {
+        name : req.query.name,
+        line_1:req.query.line_1,
+      },
+      "payment_method": {
+        "type": "sg_debit_jcb_card",
+        "fields": {
+            "name": "John",
+            "number": req.query.number,
+            "expiration_month": req.query.expiration_month,
+            "expiration_year": req.query.expiration_year,
+            "cvv": req.query.cvv
+        }
+    },
+    };
+    const result = await makeRequest("POST", "/v1/payments", body);
+    res.json(result);
+  } catch (error) {
+    res.json(error);
+  }
+});
