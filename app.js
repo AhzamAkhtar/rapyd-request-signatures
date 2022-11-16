@@ -95,9 +95,13 @@ app.get("/delete", async (req, res) => {
 app.get("/update" , async (req,res) =>{
   try{
     const body = {
-      receipt_email: "newnewabc@gmail.com",
+      receipt_email: req.query.receipt_email,
+      address  :{
+        name : req.query.name,
+        line_1 : req.query.line_1
+      }
     };
-    const result = await makeRequest("POST" , "/v1/payments/payment_37b590436f29d85495de1a63a704db22" , body)
+    const result = await makeRequest("POST" , `/v1/payments/${req.query.payment_id}` , body)
     res.json(result)
   }
   catch(error){
